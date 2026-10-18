@@ -1,0 +1,69 @@
+{
+ "duration": 156.67,
+ "siteBase": "https://fathom-a11y.vercel.app/audio/",
+ "narr": [
+  {
+   "id": "hook",
+   "at": 0.4,
+   "tempo": 1.1242
+  },
+  {
+   "id": "intro",
+   "at": 16.98,
+   "tempo": 1.18
+  },
+  {
+   "id": "dive",
+   "at": 29.862,
+   "tempo": 1.0848
+  },
+  {
+   "id": "lenses",
+   "at": 50.628,
+   "tempo": 1.0
+  },
+  {
+   "id": "listen",
+   "at": 66.505,
+   "tempo": 1.0002
+  },
+  {
+   "id": "fix",
+   "at": 90.877,
+   "tempo": 1.1753
+  },
+  {
+   "id": "lang",
+   "at": 112.985,
+   "tempo": 1.0404
+  },
+  {
+   "id": "own",
+   "at": 127.845,
+   "tempo": 1.0418
+  },
+  {
+   "id": "close",
+   "at": 141.974,
+   "tempo": 1.1037
+  }
+ ],
+ "excerpts": [
+  {
+   "id": "R1",
+   "src": "before",
+   "from": 5,
+   "to": 14.75,
+   "at": 80.427,
+   "gain": 0.9
+  },
+  {
+   "id": "R2",
+   "src": "after",
+   "from": 11.65,
+   "to": 16.9,
+   "at": 107.085,
+   "gain": 0.9
+  }
+ ]
+}

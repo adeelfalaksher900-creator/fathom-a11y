@@ -1,0 +1,8 @@
+{
+  "framework": null,
+  "installCommand": "npm install --omit=dev",
+  "buildCommand": "node build.mjs",
+  "outputDirectory": "public",
+  "cleanUrls": true,
+  "headers": [{ "source": "/(.*)", "headers": [{ "key": "X-Content-Type-Options", "value": "nosniff" }] }]
+}

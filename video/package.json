@@ -1,0 +1,12 @@
+{
+  "name": "fathom-demo-video",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Builds the Fathom (Technica 2026) demo video: HyperFrames-rendered picture + ElevenLabs narration, muxed at build time.",
+  "scripts": {
+    "build": "node build.mjs"
+  },
+  "dependencies": {
+    "ffmpeg-static": "^5.2.0"
+  }
+}
