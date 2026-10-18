@@ -1,0 +1,14 @@
+{
+ "clips": [
+  {
+   "text": "Banner landmark.\nMaple & Co.\nNavigation landmark.\nLink. Menu.\nLink. Our story.\nLink. Hours.\nLink. Visit.\nUnlabeled button.\nUnlabeled button.\nUnlabeled button.\nHeading level 4. Small-batch roasters.\nHeading level 1. Slow mornings, great coffee.\nSingle-origin beans roasted every Tuesday and a pastry case that sells out by ten.\nOrder now.\nGraphic. hero dash latte dot svg.\nHeading level 2. This season's favorites.\nHeading level 4. Baked and brewed fresh, every day.\nGraphic. image of croissant.png.\nHeading level 3. Butter croissant.\nLaminated for three days. Flaky outside, tender inside.\nLink. Read more.\nGraphic. menu dash cold dash brew dot svg.\nHeading level 3. Maple cold brew.\nSteeped for 18 hours with a splash of Vermont maple.",
+   "file": "audio/cafe-before.mp3",
+   "urlEnv": "CLIP_URL_BEFORE"
+  },
+  {
+   "text": "Link. Skip to main content.\nBanner landmark.\nMaple & Co.\nNavigation landmark.\nLink. Menu.\nLink. Our story.\nLink. Hours.\nLink. Visit.\nButton. Search.\nButton. Shopping cart.\nButton. Open menu.\nHeading level 4. Small-batch roasters.\nHeading level 1. Slow mornings, great coffee.\nSingle-origin beans roasted every Tuesday and a pastry case that sells out by ten.\nButton. Order now.\nGraphic. Hero latte.\nMain landmark.\nHeading level 2. This season's favorites.\nHeading level 3. Baked and brewed fresh, every day.\nGraphic. Croissant.\nHeading level 3. Butter croissant.\nLaminated for three days. Flaky outside, tender inside.\nLink. Read more about Butter croissant.\nGraphic. Menu cold brew.",
+   "file": "audio/cafe-after.mp3",
+   "urlEnv": "CLIP_URL_AFTER"
+  }
+ ]
+}
