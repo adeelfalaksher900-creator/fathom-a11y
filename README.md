@@ -3,6 +3,8 @@
 **See it. Hear it. Fix it.** Fathom dives into any web page and shows how deep its accessibility barriers go.
 Built solo for [Technica 2026](https://technica-2026.devpost.com/) (accessibility, UI/UX and education tracks).
 
+**Live app:** https://fathom-a11y.vercel.app · **Demo video (2:36):** https://fathom-demo-alpha.vercel.app
+
 Paste or edit HTML, then:
 
 - **See through other eyes.** Preview the page through protanopia, deuteranopia, tritanopia, achromatopsia, low-vision, glare and tunnel-vision lenses (physically based Machado 2009 matrices), or switch to a keyboard-only view that numbers every tab stop and flags clickable things the keyboard can never reach.
@@ -20,8 +22,8 @@ Everything runs in the browser. Your HTML is rendered in a sandboxed same-origin
 
 ```bash
 npm install
-npm run build   # copies the self-hosted fonts from npm (and optional ElevenLabs clips, see scripts/clips.example.json)
-npm start       # http://localhost:4173
+npm run build # copies the self-hosted fonts from npm (and optional ElevenLabs clips, see scripts/clips.example.json)
+npm start # http://localhost:4173
 ```
 
 Optional live human voices: deploy to Vercel and set `ELEVENLABS_API_KEY` (and optionally `ELEVENLABS_VOICE_ID`) on the project. `api/voice.js` proxies text-to-speech with a small per-IP rate limit. Without a key the app uses pre-rendered clips or the browser voice.
@@ -34,9 +36,13 @@ Optional live human voices: deploy to Vercel and set `ELEVENLABS_API_KEY` (and o
 
 `public/engine.js` is a dependency-free rules engine (DOM in, findings out). `public/app.js` is a no-build ES-module UI. The preview is laid out at a real device width and scaled to fit, so phone, tablet and desktop widths are honest.
 
+## The demo video
+
+`video/` holds how the demo video is produced: the picture is a HyperFrames composition (HTML + GSAP) of a real recording of this app, split into small parts so it can live in git; at deploy time `video/build.mjs` downloads the ElevenLabs narration, adds the app's real screen-reader clips, and muxes everything with ffmpeg into `demo.mp4`.
+
 ## AI disclosure
 
-This project was designed and built with AI assistance: Claude (Anthropic) wrote and tested the code and the demo-video storyboard under the author's direction. Voices are generated with ElevenLabs. Automated checks catch roughly a third of accessibility problems; always test with real assistive technology and real people.
+This project was designed and built with AI assistance: Claude (Anthropic) wrote and tested the code and the demo-video storyboard under the author's direction. Voices are generated with ElevenLabs, and the video is composed with HyperFrames. Automated checks catch roughly a third of accessibility problems; always test with real assistive technology and real people.
 
 ## License
 
