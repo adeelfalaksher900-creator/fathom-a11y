@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fathom: see and hear how deep your accessibility barriers go</title>
+<meta name="description" content="Fathom dives into any web page, shows it through other people's eyes, lets you hear it as a screen reader would, and fixes what it can. Runs entirely in your browser.">
+<meta name="theme-color" content="#04121f">
+<meta property="og:title" content="Fathom: dive into your interface's hidden barriers">
+<meta property="og:description" content="Accessibility auditor with vision lenses, a screen reader simulator with human voices, inclusive-language checks and one-click fixes.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%2304121f'/%3E%3Ccircle cx='32' cy='32' r='20' fill='none' stroke='%235ee6c8' stroke-width='4'/%3E%3Ccircle cx='32' cy='32' r='11' fill='none' stroke='%235ee6c8' stroke-width='4' opacity='.7'/%3E%3Ccircle cx='32' cy='32' r='3.5' fill='%23ff7a6b'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="app.css">
+<link rel="preload" href="fonts/fraunces.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/inter.woff2" as="font" type="font/woff2" crossorigin>
+</head>
+<body>
+<a class="skip" href="#dive">Skip to the workbench</a>
+
+<svg class="defs" width="0" height="0" aria-hidden="true" focusable="false">
+  <defs>
+    <filter id="f-protan" color-interpolation-filters="linearRGB"><feColorMatrix type="matrix" values="0.152286 1.052583 -0.204868 0 0  0.114503 0.786281 0.099216 0 0  -0.003882 -0.048116 1.051998 0 0  0 0 0 1 0"/></filter>
+    <filter id="f-deutan" color-interpolation-filters="linearRGB"><feColorMatrix type="matrix" values="0.367322 0.860646 -0.227968 0 0  0.280085 0.672501 0.047413 0 0  -0.011820 0.042940 0.968881 0 0  0 0 0 1 0"/></filter>
+    <filter id="f-tritan" color-interpolation-filters="linearRGB"><feColorMatrix type="matrix" values="1.255528 -0.076749 -0.178779 0 0  -0.078411 0.930809 0.147602 0 0  0.004733 0.691367 0.303900 0 0  0 0 0 1 0"/></filter>
+    <filter id="f-achro" color-interpolation-filters="linearRGB"><feColorMatrix type="matrix" values="0.2126 0.7152 0.0722 0 0  0.2126 0.7152 0.0722 0 0  0.2126 0.7152 0.0722 0 0  0 0 0 1 0"/></filter>
+    <filter id="f-lowvis"><feGaussianBlur stdDeviation="3.2"/><feComponentTransfer><feFuncR type="linear" slope=".78" intercept=".1"/><feFuncG type="linear" slope=".78" intercept=".1"/><feFuncB type="linear" slope=".78" intercept=".1"/></feComponentTransfer></filter>
+    <filter id="f-glare"><feGaussianBlur stdDeviation="1.6"/><feComponentTransfer><feFuncR type="linear" slope=".62" intercept=".26"/><feFuncG type="linear" slope=".62" intercept=".26"/><feFuncB type="linear" slope=".62" intercept=".24"/></feComponentTransfer></filter>
+  </defs>
+</svg>
+
+<header class="top">
+  <a class="brand" href="#top" aria-label="Fathom home">
+    <svg viewBox="0 0 64 64" width="30" height="30" aria-hidden="true" focusable="false"><circle cx="32" cy="32" r="26" fill="none" stroke="currentColor" stroke-width="4" opacity=".35"/><circle cx="32" cy="32" r="17" fill="none" stroke="currentColor" stroke-width="4" opacity=".65"/><circle cx="32" cy="32" r="8" fill="none" stroke="currentColor" stroke-width="4"/><circle cx="32" cy="32" r="3" fill="#ff7a6b"/></svg>
+    <span>Fathom</span>
+  </a>
+  <nav aria-label="Primary">
+    <a href="#dive">Workbench</a>
+    <a href="#how">How it works</a>
+    <a href="#why">Why it matters</a>
+  </nav>
+  <a class="pill" href="#dive">Start a dive</a>
+</header>
+
+<main id="top">
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="rays" aria-hidden="true"></div>
+    <div class="bubbles" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    <div class="hero-copy">
+      <p class="eyebrow">Technica 2026 · Dare to Dive</p>
+      <h1 id="hero-title">Fathom how deep the <em>barriers</em> go.</h1>
+      <p class="lede">Most of the web quietly shuts people out. Fathom dives into any page, shows it through other people's eyes, lets you <strong>hear</strong> it the way a screen reader does, and fixes what it can in one click.</p>
+      <div class="cta">
+        <a class="btn primary" href="#dive" data-sample="cafe">Dive into a sample page</a>
+        <a class="btn ghost" href="#how">How it works</a>
+      </div>
+      <ul class="trust" aria-label="Highlights">
+        <li>Runs 100% in your browser</li>
+        <li>28 WCAG 2.2 rules</li>
+        <li>Human-sounding voices</li>
+      </ul>
+    </div>
+    <figure class="hero-card" aria-label="Example result">
+      <figcaption class="sr">Example: the sample café page scored 38 out of 100 before fixes and 100 after.</figcaption>
+      <div class="hc-row"><span class="hc-label">Sample café page</span><span class="chip">Before</span></div>
+      <div class="hc-gauge" aria-hidden="true">
+        <svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="50" class="g-track"/><circle cx="60" cy="60" r="50" class="g-fill" id="hero-arc" pathLength="100" stroke-dasharray="38 100"/></svg>
+        <div class="hc-num"><b id="hero-num">38</b><small>Murky</small></div>
+      </div>
+      <ul class="hc-list">
+        <li><span class="dot b"></span> 7 blockers for screen reader users</li>
+        <li><span class="dot s"></span> Text fails contrast on 3 colors</li>
+        <li><span class="dot m"></span> No keyboard focus ring anywhere</li>
+      </ul>
+      <p class="hc-after" aria-hidden="true">After Fathom's fixes <b>→ 100</b></p>
+    </figure>
+  </section>
+
+  <section id="dive" class="bench" aria-labelledby="dive-title" data-pane="preview">
+    <div class="bench-head">
+      <div>
+        <p class="eyebrow">The workbench</p>
+        <h2 id="dive-title">Dive in</h2>
+      </div>
+      <div class="bench-controls">
+        <div class="field-inline">
+          <label for="sample">Page</label>
+          <select id="sample">
+            <option value="cafe">Sample: Maple &amp; Co. café</option>
+            <option value="study">Sample: Study Buddy sign-up</option>
+            <option value="custom">My own HTML</option>
+            <option value="self">Fathom itself (meta)</option>
+          </select>
+        </div>
+        <button class="btn primary" id="btn-fix" type="button">Auto-fix everything safe</button>
+        <button class="btn ghost" id="btn-undo" type="button" disabled>Undo</button>
+        <button class="btn ghost" id="btn-export" type="button">Export report</button>
+      </div>
+    </div>
+
+    <div class="pane-switch" role="group" aria-label="Choose a panel">
+      <button type="button" data-pane-btn="code" aria-pressed="false">Code</button>
+      <button type="button" data-pane-btn="preview" aria-pressed="true">Preview</button>
+      <button type="button" data-pane-btn="results" aria-pressed="false">Results</button>
+    </div>
+
+    <div class="grid">
+      <!-- CODE -->
+      <section class="panel p-code" aria-labelledby="code-title">
+        <div class="panel-head"><h3 id="code-title">HTML source</h3><span class="muted small" id="editor-meta"></span></div>
+        <label class="sr" for="editor">HTML source of the page being audited</label>
+        <textarea id="editor" spellcheck="false" autocomplete="off" autocapitalize="off" wrap="off"></textarea>
+        <p class="muted small note">Scripts are never run. Your code stays in this tab.</p>
+      </section>
+
+      <!-- PREVIEW -->
+      <section class="panel p-preview" aria-labelledby="prev-title">
+        <div class="panel-head">
+          <h3 id="prev-title">Through other eyes</h3>
+          <div class="seg" role="group" aria-label="Preview width">
+            <button type="button" data-vp="mobile" aria-pressed="false">Phone</button>
+            <button type="button" data-vp="tablet" aria-pressed="false">Tablet</button>
+            <button type="button" data-vp="desktop" aria-pressed="true">Desktop</button>
+          </div>
+        </div>
+        <fieldset class="lenses" id="lenses">
+          <legend>Vision &amp; input lens</legend>
+          <label><input type="radio" name="lens" value="normal" checked><span>Typical</span></label>
+          <label><input type="radio" name="lens" value="protan"><span>Protanopia</span></label>
+          <label><input type="radio" name="lens" value="deutan"><span>Deuteranopia</span></label>
+          <label><input type="radio" name="lens" value="tritan"><span>Tritanopia</span></label>
+          <label><input type="radio" name="lens" value="achro"><span>No color</span></label>
+          <label><input type="radio" name="lens" value="lowvis"><span>Low vision</span></label>
+          <label><input type="radio" name="lens" value="glare"><span>Glare</span></label>
+          <label><input type="radio" name="lens" value="tunnel"><span>Tunnel vision</span></label>
+          <label><input type="radio" name="lens" value="keys"><span>Keyboard only</span></label>
+        </fieldset>
+        <p class="lens-note" id="lens-note" aria-live="polite"></p>
+        <div class="stage" id="stage" tabindex="0" role="region" aria-label="Scrollable preview of the page being audited">
+          <div class="scaler" id="scaler">
+            <div class="frame-wrap" id="frame-wrap" data-lens="normal" data-vp="desktop">
+              <iframe id="frame" title="Live preview of the page being audited" sandbox="allow-same-origin" scrolling="no"></iframe>
+              <div class="overlay" id="overlay" aria-hidden="true"></div>
+              <div class="tunnel" aria-hidden="true"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- RESULTS -->
+      <section class="panel p-results" aria-labelledby="res-title">
+        <h3 class="sr" id="res-title">Results</h3>
+        <div class="summary">
+          <div class="gauge" id="gauge" role="img" aria-label="Clarity score">
+            <svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="50" class="g-track"/><circle cx="60" cy="60" r="50" class="g-fill" id="g-arc" pathLength="100" stroke-dasharray="0 100"/></svg>
+            <div class="g-num"><b id="g-score">0</b><small id="g-tier">Diving…</small></div>
+          </div>
+          <div class="sum-right">
+            <p class="sum-title">Clarity</p>
+            <ul class="counts" id="counts" aria-label="Findings by severity"></ul>
+            <p class="muted small" id="sum-line" role="status" aria-live="polite"></p>
+          </div>
+        </div>
+        <details class="persona" open>
+          <summary>Who gets left behind</summary>
+          <ul id="personas" class="bars"></ul>
+        </details>
+
+        <div class="tabs" role="tablist" aria-label="Result views">
+          <button role="tab" id="tab-barriers" aria-controls="panel-barriers" aria-selected="true" tabindex="0">Barriers <span class="count" id="n-barriers">0</span></button>
+          <button role="tab" id="tab-listen" aria-controls="panel-listen" aria-selected="false" tabindex="-1">Listen</button>
+          <button role="tab" id="tab-language" aria-controls="panel-language" aria-selected="false" tabindex="-1">Language <span class="count" id="n-language">0</span></button>
+        </div>
+        <div class="tabpanel" role="tabpanel" id="panel-barriers" aria-labelledby="tab-barriers" tabindex="0"><div id="barriers"></div></div>
+        <div class="tabpanel" role="tabpanel" id="panel-listen" aria-labelledby="tab-listen" tabindex="0" hidden>
+          <div class="listen-bar">
+            <button class="btn primary" id="btn-play" type="button">Play</button>
+            <button class="btn ghost" id="btn-stop" type="button" disabled>Stop</button>
+            <label class="inline" for="rate">Speed</label>
+            <select id="rate"><option value="0.9">0.9×</option><option value="1" selected>1×</option><option value="1.25">1.25×</option><option value="1.5">1.5×</option></select>
+          </div>
+          <p class="voice-badge" id="voice-badge" role="status" aria-live="polite">Hear this page as a screen reader user does.</p>
+          <ol class="tx" id="tx"></ol>
+          <p class="muted small" id="tx-note"></p>
+        </div>
+        <div class="tabpanel" role="tabpanel" id="panel-language" aria-labelledby="tab-language" tabindex="0" hidden><div id="language"></div></div>
+      </section>
+    </div>
+  </section>
+
+  <section id="how" class="how" aria-labelledby="how-title">
+    <p class="eyebrow">How it works</p>
+    <h2 id="how-title">See it. Hear it. Fix it.</h2>
+    <div class="how-grid">
+      <article>
+        <span class="n">01</span>
+        <h3>See through other eyes</h3>
+        <p>Preview your page with physically-based color-blindness matrices, blur, glare and tunnel-vision lenses, then switch to a keyboard-only view that numbers every tab stop and flags clickable things the keyboard can never reach.</p>
+      </article>
+      <article>
+        <span class="n">02</span>
+        <h3>Hear what's really there</h3>
+        <p>Fathom builds a screen reader transcript from the accessibility tree and reads it aloud. Unlabeled buttons, file-name images and anonymous form fields become impossible to ignore. Compare it before and after with ElevenLabs voices.</p>
+      </article>
+      <article>
+        <span class="n">03</span>
+        <h3>Fix it, and learn why</h3>
+        <p>Every finding names the people it affects, the WCAG 2.2 criterion and a plain-English reason. One click applies a safe fix and re-audits live. Inclusive-language and reading-level checks make the words as welcoming as the code.</p>
+      </article>
+    </div>
+  </section>
+
+  <section id="why" class="why" aria-labelledby="why-title">
+    <div class="why-card">
+      <p class="eyebrow">Why we built this</p>
+      <h2 id="why-title">Inclusion is a feature you can measure.</h2>
+      <p>Technica exists to make tech a safe harbor for people who are too often left out. The same is true of the products we build. Fathom turns “make it accessible” from a vague promise into a score, a list, and a button, so a student building their first site can ship something everyone can use.</p>
+      <ul class="stats">
+        <li><b>1 in 4</b><span>adults in the US lives with a disability (CDC)</span></li>
+        <li><b>1 in 12</b><span>men have some form of color-vision deficiency</span></li>
+        <li><b>95.9%</b><span>of top-million home pages have detectable WCAG failures (WebAIM Million 2026)</span></li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <p><strong>Fathom</strong> was built solo for Technica 2026. AI disclosure: designed and written with Claude (Anthropic). Voices by ElevenLabs. Audits run in your browser and nothing is uploaded.</p>
+  <p class="muted small">Automated checks find roughly a third of accessibility issues. Always test with real assistive technology and real people.</p>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script type="module" src="app.js"></script>
+</body>
+</html>
