@@ -1,0 +1,9 @@
+{
+  "clips": [
+    {
+      "text": "Exact screen-reader transcript lines joined with \\n (first 24 stops)",
+      "file": "audio/cafe-before.mp3",
+      "url": "https://example.com/a-pre-rendered-elevenlabs-render.mp3"
+    }
+  ]
+}
