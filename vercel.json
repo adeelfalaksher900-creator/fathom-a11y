@@ -1,0 +1,39 @@
+{
+  "outputDirectory": "public",
+  "cleanUrls": true,
+  "headers": [
+    {
+      "source": "/fonts/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "no-referrer"
+        },
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https:; img-src * data: blob:; font-src * data:; media-src * data: blob:; connect-src 'self'; frame-src 'self' about: data: blob:; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'self'"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(), microphone=(), geolocation=()"
+        }
+      ]
+    }
+  ],
+  "buildCommand": "node scripts/copy-fonts.mjs && node scripts/fetch-clips.mjs",
+  "installCommand": "npm install --omit=dev",
+  "framework": null
+}
