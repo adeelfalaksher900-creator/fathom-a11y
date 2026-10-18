@@ -371,7 +371,7 @@ function renderListen() {
   $('#tx').innerHTML = items.map((it, i) => `<li data-i="${i}" class="${it.bad ? 'bad' : ''}"><button type="button"><span class="role">${esc(it.kind === 'field' ? 'form' : it.kind)}</span>${esc(it.spoken)}${it.bad ? `<span class="why">⚠ ${esc(it.note)}</span>` : ''}</button></li>`).join('');
   const bad = items.filter((i) => i.bad).length;
   $('#tx-note').textContent = st.items.length > MAX_STOPS
-    ? `Reading the first ${MAX_STOPS} of ${st.items.length} stops. ${bad} of them contain a barrier. This simulation reads the accessibility tree the way NVDA or VoiceOver would, but real screen readers differ in detail.`
+    ? `Reading the first ${MAX_STOPS} of ${st.items.length} stops. ${bad} of them contain a barrier. This is a DOM-based reading-order simulation, not NVDA or VoiceOver. Real screen readers can announce different content and order.`
     : `${st.items.length} stops, ${bad} with a barrier. This is a simulation of what NVDA or VoiceOver would announce; real screen readers differ in detail.`;
   const clip = findClip(items);
   setBadge(clip ? 'ElevenLabs voice ready (pre-rendered)' : st.live ? 'ElevenLabs live voice ready' : 'Browser voice (add an ElevenLabs key on the server for live human voices)', clip || st.live);
@@ -384,7 +384,14 @@ function findClip(items) {
   return st.clips.find((c) => c.text === key) || null;
 }
 $('#tx').addEventListener('click', (e) => { const li = e.target.closest('li[data-i]'); if (li) play(+li.dataset.i); });
-$('#btn-play').addEventListener('click', () => (st.speech.playing ? pauseToggle() : play(0)));
+$('#btn-play').addEventListener('click', () => {
+  if (st.audio && st.audio.paused) {
+    const audio = st.audio;
+    audio.play().then(() => { if (st.audio === audio) setPlaying(true); }).catch(() => stopSpeech());
+    return;
+  }
+  st.speech.playing ? pauseToggle() : play(0);
+});
 $('#btn-stop').addEventListener('click', stopSpeech);
 function markRow(i) {
   st.speech.idx = i;
@@ -409,7 +416,7 @@ function stopSpeech() {
   if (st.tab === 'listen') { st.hl = []; drawOverlay(); }
 }
 function pauseToggle() {
-  if (st.audio) { st.audio.pause(); setPlaying(false); $('#btn-play').textContent = 'Resume'; $('#btn-play').onclick = () => { st.audio.play(); setPlaying(true); $('#btn-play').onclick = null; }; return; }
+  if (st.audio) { st.audio.pause(); setPlaying(false); $('#btn-play').textContent = 'Resume'; return; }
   stopSpeech();
 }
 function weights(items) {

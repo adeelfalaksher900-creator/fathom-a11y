@@ -8,7 +8,7 @@ Built solo for [Technica 2026](https://technica-2026.devpost.com/) (accessibilit
 Paste or edit HTML, then:
 
 - **See through other eyes.** Preview the page through protanopia, deuteranopia, tritanopia, achromatopsia, low-vision, glare and tunnel-vision lenses (physically based Machado 2009 matrices), or switch to a keyboard-only view that numbers every tab stop and flags clickable things the keyboard can never reach.
-- **Hear what is really there.** A screen reader transcript is built from the accessibility tree and read aloud: unlabeled buttons, file-name images and anonymous fields become impossible to ignore. Human voices come from ElevenLabs (pre-rendered clips, or live through an optional serverless proxy); the browser voice is the fallback.
+- **Hear what is really there.** A reading-order transcript is approximated from DOM semantics and read aloud: unlabeled buttons, file-name images and anonymous fields become impossible to ignore. Human voices come from ElevenLabs (pre-rendered clips, or live through an optional serverless proxy); the browser voice is the fallback.
 - **Fix it, and learn why.** 28 WCAG 2.2 rules, each with the people affected, the success criterion, a plain-English reason and a one-click fix that re-audits live. Contrast fixes find the closest passing color. Undo history and a Markdown report export are built in.
 - **Make the words welcoming.** Inclusive-language suggestions (for example "Hey guys" to "Hi everyone") and a readability score (Flesch-Kincaid).
 
@@ -16,7 +16,7 @@ On the built-in samples the clarity score goes from 32 to 100 (cafe page) and fr
 
 ## Privacy and safety
 
-Everything runs in the browser. Your HTML is rendered in a sandboxed same-origin iframe (`sandbox="allow-same-origin"`), scripts and inline handlers are neutralized before parsing and restored on export, links and forms inside the preview are blocked, and the site ships a strict Content Security Policy. Nothing is uploaded.
+Everything runs in the browser. Your HTML is rendered in a sandboxed same-origin iframe (`sandbox="allow-same-origin"`), scripts and inline handlers are neutralized before parsing and restored on export, links and forms inside the preview are blocked, and the site ships a strict Content Security Policy. HTML auditing stays local. Remote image, font, style and media URLs in pasted HTML may still request their hosts. Optional live voice sends up to 1,400 transcript characters to the configured ElevenLabs proxy; do not paste confidential content. Browser speech may use an operating-system speech service.
 
 ## Run it
 
@@ -30,7 +30,7 @@ Optional live human voices: deploy to Vercel and set `ELEVENLABS_API_KEY` (and o
 
 ## Tests
 
-`npm test` runs 46 Playwright checks against the running app: functional flows, hostile-HTML sandbox tests, edge-case inputs, keyboard and ARIA behavior, seven viewport widths, reduced-motion and forced-colors, and an axe-core audit of Fathom itself (WCAG 2.0 to 2.2 A/AA plus best practices) in five UI states.
+`npm test` runs a suite of 46 Playwright checks against the running app: functional flows, hostile-HTML sandbox tests, edge-case inputs, keyboard and ARIA behavior, seven viewport widths, reduced-motion and forced-colors, and an axe-core audit of Fathom itself (WCAG 2.0 to 2.2 A/AA plus best practices) in five UI states.
 
 ## How it works
 
@@ -42,8 +42,14 @@ Optional live human voices: deploy to Vercel and set `ELEVENLABS_API_KEY` (and o
 
 ## AI disclosure
 
-This project was designed and built with AI assistance: Claude (Anthropic) wrote and tested the code and the demo-video storyboard under the author's direction. Voices are generated with ElevenLabs, and the video is composed with HyperFrames. Automated checks catch roughly a third of accessibility problems; always test with real assistive technology and real people.
+This project was designed and built with AI assistance: Claude (Anthropic) wrote and tested the code and the demo-video storyboard under the author's direction. Voices are generated with ElevenLabs, and the video is composed with HyperFrames. The clarity score measures this engine’s findings and does not certify WCAG conformance. Suggested labels, alt text, language and table headers require human review; always test with real assistive technology and real people.
 
 ## License
 
 MIT
+
+## Review limits
+
+The Listen panel is a DOM-based educational simulation, not an operating-system accessibility tree or a replacement for NVDA/VoiceOver. Auto-fixes apply heuristics and can change meaning: review them and use Undo before exporting. The optional voice endpoint uses an instance-local rate limit, not a durable quota; configure stronger abuse protection before enabling a paid key on a public deployment.
+
+Final submission review and the audio pause/resume correction were assisted by OpenAI Codex.
