@@ -1,55 +1,103 @@
 # Fathom
 
-**See it. Hear it. Fix it.** Fathom dives into any web page and shows how deep its accessibility barriers go.
-Built solo for [Technica 2026](https://technica-2026.devpost.com/) (accessibility, UI/UX and education tracks).
+**See it. Hear it. Fix it.**
 
-**Live app:** https://fathom-a11y.vercel.app · **Demo video (2:36):** https://fathom-demo-alpha.vercel.app
+![JavaScript](https://img.shields.io/badge/JavaScript-323330?style=flat-square&logo=javascript&logoColor=F7DF1E)
+![HTML](https://img.shields.io/badge/HTML-E34F26?style=flat-square&logo=html5&logoColor=white)
+![CSS](https://img.shields.io/badge/CSS-1572B6?style=flat-square&logo=css&logoColor=white)
+![Node.js](https://img.shields.io/badge/Node.js-339933?style=flat-square&logo=nodedotjs&logoColor=white)
+![MIT](https://img.shields.io/badge/License-MIT-52796F?style=flat-square)
 
-Paste or edit HTML, then:
+Fathom is an interactive HTML accessibility workbench built for [Technica 2026](https://technica-2026.devpost.com/). Paste HTML or choose an included sample, inspect barriers, compare visual simulations, listen to a DOM-based reading-order transcript, and review suggested fixes with Undo.
 
-- **See through other eyes.** Preview the page through protanopia, deuteranopia, tritanopia, achromatopsia, low-vision, glare and tunnel-vision lenses (physically based Machado 2009 matrices), or switch to a keyboard-only view that numbers every tab stop and flags clickable things the keyboard can never reach.
-- **Hear what is really there.** A reading-order transcript is approximated from DOM semantics and read aloud: unlabeled buttons, file-name images and anonymous fields become impossible to ignore. Human voices come from ElevenLabs (pre-rendered clips, or live through an optional serverless proxy); the browser voice is the fallback.
-- **Fix it, and learn why.** 28 WCAG 2.2 rules, each with the people affected, the success criterion, a plain-English reason and a one-click fix that re-audits live. Contrast fixes find the closest passing color. Undo history and a Markdown report export are built in.
-- **Make the words welcoming.** Inclusive-language suggestions (for example "Hey guys" to "Hi everyone") and a readability score (Flesch-Kincaid).
+[Open the application](https://fathom-a11y.vercel.app) · [Watch the demo](https://fathom-demo-alpha.vercel.app) · [Run locally](#run-locally)
 
-On the built-in samples the clarity score goes from 32 to 100 (cafe page) and from 47 to 100 (study sign-up page) with one click, and Fathom audited on its own page finds 0 barriers (and so does axe-core).
+## Explore
 
-## Privacy and safety
+| Capability | What you can inspect |
+|---|---|
+| Visual lenses | Color-vision, low-vision, glare, and tunnel-vision approximations |
+| Keyboard view | Tab order and clickable elements that lack keyboard access |
+| Listen | Reading order inferred from DOM semantics, with optional speech |
+| Audit and repair | WCAG-related rules, explanations, suggested fixes, and re-auditing |
+| Content checks | Inclusive-language suggestions and Flesch–Kincaid readability |
+| Export | Markdown findings and edited HTML |
 
-Everything runs in the browser. Your HTML is rendered in a sandboxed same-origin iframe (`sandbox="allow-same-origin"`), scripts and inline handlers are neutralized before parsing and restored on export, links and forms inside the preview are blocked, and the site ships a strict Content Security Policy. HTML auditing stays local. Remote image, font, style and media URLs in pasted HTML may still request their hosts. Optional live voice sends up to 1,400 transcript characters to the configured ElevenLabs proxy; do not paste confidential content. Browser speech may use an operating-system speech service.
+The clarity score summarizes findings detected by this engine. It does not certify WCAG conformance. Visual and reading-order simulations are educational approximations, not a substitute for testing with assistive technology and people.
 
-## Run it
+## Run locally
 
-```bash
+Use Node.js and npm.
+
+```sh
+git clone https://github.com/adeelfalaksher900-creator/fathom-a11y.git
+cd fathom-a11y
 npm install
-npm run build # copies the self-hosted fonts from npm (and optional ElevenLabs clips, see scripts/clips.example.json)
-npm start # http://localhost:4173
+npm run build
+npm start
 ```
 
-Optional live human voices: deploy to Vercel and set `ELEVENLABS_API_KEY` (and optionally `ELEVENLABS_VOICE_ID`) on the project. `api/voice.js` proxies text-to-speech with a small per-IP rate limit. Without a key the app uses pre-rendered clips or the browser voice.
+Open `http://localhost:4173`. The build copies self-hosted fonts and attempts to obtain optional pre-rendered speech clips. The app can fall back to browser speech when clips or live voice are unavailable. No private API key is required for local auditing.
 
-## Tests
+| Command | Purpose |
+|---|---|
+| `npm run build` | Prepare fonts and available speech clips |
+| `npm start` | Serve `public/` with the local Node server |
+| `npm test` | Run the Playwright-based browser harness |
 
-`npm test` runs a suite of 46 Playwright checks against the running app: functional flows, hostile-HTML sandbox tests, edge-case inputs, keyboard and ARIA behavior, seven viewport widths, reduced-motion and forced-colors, and an axe-core audit of Fathom itself (WCAG 2.0 to 2.2 A/AA plus best practices) in five UI states.
+The current test harness imports Playwright from `/opt/npm-tools/node_modules/playwright/index.mjs`. It requires that environment-specific installation and a running application; installing this package's declared dependencies alone does not provide it. The harness source covers functional flows, hostile HTML, keyboard and ARIA behavior, viewport sizes, motion preferences, and axe-core checks. No fresh passing test result is claimed by this documentation update.
 
-## How it works
+## Architecture
 
-`public/engine.js` is a dependency-free rules engine (DOM in, findings out). `public/app.js` is a no-build ES-module UI. The preview is laid out at a real device width and scaled to fit, so phone, tablet and desktop widths are honest.
+```mermaid
+flowchart TD
+    Input[HTML or included sample] --> Engine[DOM rules engine]
+    Input --> Preview[Sandboxed preview]
+    Engine --> Findings[Findings and reading-order transcript]
+    Findings --> Review[Human review]
+    Review --> Fix[Suggested edits and Undo]
+    Fix --> Engine
+    Findings --> Speech[Optional speech output]
+    Review --> Export[Report or edited HTML]
+```
 
-## The demo video
+`public/engine.js` performs DOM-based analysis. `public/app.js` drives the interface, preview, re-auditing, and export. The static app uses native ES modules. Preview layouts use the selected device width before scaling to the available panel.
 
-`video/` holds how the demo video is produced: the picture is a HyperFrames composition (HTML + GSAP) of a real recording of this app, split into small parts so it can live in git; at deploy time `video/build.mjs` downloads the ElevenLabs narration, adds the app's real screen-reader clips, and muxes everything with ffmpeg into `demo.mp4`.
+## Privacy
 
-## AI disclosure
+HTML auditing runs in the browser. The preview uses a sandboxed iframe with `allow-same-origin`; scripts and inline handlers are neutralized for preview, and preview links and forms are blocked. Remote image, font, stylesheet, or media URLs in supplied HTML can still contact their hosts. Review exported HTML before using it elsewhere, because the export preserves source content.
 
-This project was designed and built with AI assistance: Claude (Anthropic) wrote and tested the code and the demo-video storyboard under the author's direction. Voices are generated with ElevenLabs, and the video is composed with HyperFrames. The clarity score measures this engine’s findings and does not certify WCAG conformance. Suggested labels, alt text, language and table headers require human review; always test with real assistive technology and real people.
+Browser speech may use an operating-system service. Optional live speech sends up to 1,400 transcript characters to a configured ElevenLabs proxy. Use permitted content and avoid confidential HTML when enabling external speech.
+
+## Deployment
+
+The included Vercel configuration serves the static application with response headers. For optional live speech, configure `ELEVENLABS_API_KEY` and optionally `ELEVENLABS_VOICE_ID` as server environment variables. `api/voice.js` provides the proxy; the local static server provides a stub rather than the live service.
+
+The proxy's limit is instance-local, not a durable public quota. Add appropriate authentication, quotas, and cost controls before exposing a paid speech key to unrestricted use.
+
+## Project map
+
+| Path | Responsibility |
+|---|---|
+| `public/engine.js` | DOM rules and suggested repairs |
+| `public/app.js` | Interface and application state |
+| `public/samples.js` | Included educational examples |
+| `public/index.html`, `public/app.css` | Page structure and styles |
+| `api/voice.js` | Optional serverless speech proxy |
+| `scripts/` | Font and speech-asset preparation |
+| `tests/run.mjs` | Browser verification harness |
+| `video/` | Recorded-app composition and video build source |
+
+## Review and contribute
+
+Suggested alternative text, labels, table headers, language changes, and other repairs can change meaning. Review them, use Undo when needed, and test the resulting page with real assistive technology.
+
+Submit focused pull requests with the affected rule or workflow, reproduction steps, and validation performed. Do not include confidential source HTML, private keys, or personal records.
+
+## Attribution
+
+The project was developed under the author's direction with AI assistance in implementation, testing, documentation, and presentation. The existing presentation uses generated ElevenLabs speech and a HyperFrames composition of application recordings. The Listen view remains a DOM-based simulation rather than NVDA or VoiceOver.
 
 ## License
 
-MIT
-
-## Review limits
-
-The Listen panel is a DOM-based educational simulation, not an operating-system accessibility tree or a replacement for NVDA/VoiceOver. Auto-fixes apply heuristics and can change meaning: review them and use Undo before exporting. The optional voice endpoint uses an instance-local rate limit, not a durable quota; configure stronger abuse protection before enabling a paid key on a public deployment.
-
-Final submission review and the audio pause/resume correction were assisted by OpenAI Codex.
+Project source is [MIT licensed](LICENSE). Third-party packages, fonts, and services retain their own terms.
